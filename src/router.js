@@ -12,12 +12,20 @@ export default new Router({
       component: Home
     },
     {
-      path: '/about',
-      name: 'about',
+      path: '/allComments',
+      name: 'allComments',
       // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
+      // this generates a separate chunk (allComments.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      component: () => import(/* webpackChunkName: "AllComments" */ './views/AllComments.vue')
+    },
+    {
+      path: '/singleComment/:id',
+      name: 'singleComment',
+      // route level code-splitting
+      // this generates a separate chunk (singleComment.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "SingleComment" */ './views/SingleComment.vue')
     }
   ]
 })
