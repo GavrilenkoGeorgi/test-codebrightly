@@ -14,10 +14,66 @@
         >
           Read more
         </router-link>
+        <button
+          @click.prevent="deleteComment(comment.id)"
+        >
+          delete comment
+        </button>
+        <button
+          @click.prevent="showUpdateModal(comment.title, comment.body, comment.id)"
+        >
+          update comment
+        </button>
       </div>
     </div>
     <!-- controls -->
     <homeButton />
+    <modal
+      name="update-comment"
+      :adaptive="true"
+      @before-open="beforeOpen"
+    >
+      <div class="modal-container">
+        <p class="modal-title">
+          Update comment.
+        </p>
+        <div class="form-container">
+          <form class="update-comment-form">
+            <input
+              class="comment-title"
+              type="text"
+              name="title"
+              placeholder="Title"
+              v-model="commentTitle"
+            >
+            <br />
+            <textarea
+              class="comment-text"
+              type="text"
+              name="comment"
+              placeholder="Your comment"
+              v-model="commentBody"
+            >
+            </textarea>
+            <br />
+            <div class="buttons-layout">
+              <button
+                class="modal-button"
+                @click.prevent="updateComment(commentId)"
+              >
+                Send
+              </button>
+              <button
+                class="modal-button"
+                @click.prevent="hideUpdateModal()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </modal>
   </section>
 </template>
 
@@ -32,15 +88,67 @@ export default {
   },
   data () {
     return {
-      blogs: []
+      blogs: [],
+      commentTitle: undefined,
+      commentBody: undefined,
+      commentId: undefined
     }
   },
   created () {
     this.$http.get(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments`)
-      .then(function (data) {
-        this.blogs = data.body.slice(0, 6)
+      .then(data => {
+        // last six comments
+        let sliceStartIndex = data.body.length
+        sliceStartIndex = sliceStartIndex - 6
+        // console.log(`Index to slice is ${sliceStartIndex}`)
+        this.blogs = data.body.slice(sliceStartIndex)
         // console.table(this.blogs)
       })
+  },
+  methods: {
+    deleteComment (id) {
+      // console.log(`Deleteing comment with id ${id}`)
+      this.$http.delete(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments/${id}`)
+        .then(response => {
+          console.log(`Comment deleted.`)
+          // console.log(response)
+        })
+    },
+    updateComment (id) {
+      // console.log(`Updating comment with id ${id}`)
+      let date = new Date()
+      let timestamp = date.getTime()
+      // console.log(`created at ${timestamp} sec.`)
+      let updatedComment = {
+        created_at: timestamp,
+        title: this.commentTitle,
+        body: this.commentBody
+      }
+      this.$http.put(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments/${id}`, updatedComment)
+        .then(response => {
+          // console.log(`Comment updated.`)
+          // console.log(response)
+          this.hideUpdateModal()
+        })
+    },
+    showUpdateModal (title, body, id) {
+      this.$modal.show('update-comment', {
+        title: title,
+        body: body,
+        id: id
+      })
+    },
+    hideUpdateModal () {
+      this.$modal.hide('update-comment')
+    },
+    beforeOpen (event) {
+      console.log(event.params.title)
+      this.commentTitle = event.params.title
+      this.commentBody = event.params.body
+      this.commentId = event.params.id
+      console.log(event.params.body)
+      console.log(event.params.id)
+    }
   }
 }
 
@@ -94,4 +202,32 @@ section
     border: .075em solid #60e3a1
     height: 3em
     border-radius: .2em
+
+.modal-container
+  padding: 0em 2em 0em 2em
+
+.update-comment-form
+  .comment-title
+    width: 100%
+    padding: 0
+    margin-bottom: .7em
+    border: 1px solid #60e3a1
+    border-radius: 5px
+    line-height: 2
+  .comment-text
+    line-height: 2
+    border: 1px solid #60e3a1
+    border-radius: 5px
+    width: 100%
+    padding: 0
+    height: 10em
+    margin-bottom: 1em
+    resize: none
+  .modal-button
+    border: none
+    background-color: #60e3a1
+    border-radius: 5px
+    width: 6em
+    height: 2em
+    margin: .3em
 </style>

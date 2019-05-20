@@ -1,6 +1,6 @@
 <template>
   <main class="home-view-layout">
-    <div class="header-container">
+    <div class="header">
       <h1>Lorem Ipsum is simply <br />dummy text of the printing<br /> and typesetting industry</h1>
     </div>
     <img class="main-image" src="../assets/images/homePageTitle.jpg" />
@@ -17,7 +17,7 @@
           </ul>
         </div>
         <div class="description">
-          <weDoIcon />
+          <weDoIcon class="svg-icon"/>
           <h2>What we do</h2>
           <ul>
             <li>Many desktop publishing packages and web page</li>
@@ -50,6 +50,7 @@
               type="text"
               name="title"
               placeholder="Title"
+              v-model="commentTitle"
             >
             <br />
             <textarea
@@ -57,14 +58,16 @@
               type="text"
               name="comment"
               placeholder="Your comment"
+              v-model="commentBody"
             >
             </textarea>
             <br />
-            <input
+            <button
               class="send-comment-button"
-              type="submit"
-              value="Send"
+              @click.prevent="sendComment()"
             >
+              Send
+            </button>
           </form>
         </div>
       </div>
@@ -83,6 +86,36 @@ export default {
     weAreIcon,
     weDoIcon,
     techIcon
+  },
+  data () {
+    return {
+      commentTitle: undefined,
+      commentBody: undefined
+    }
+  },
+  methods: {
+    sendComment () {
+      // validation needed
+      if (this.commentTitle && this.commentBody) {
+        // console.log(`Sending comment`)
+        // console.log(this.commentTitle)
+        // console.log(this.commentBody)
+        let date = new Date()
+        let timestamp = date.getTime()
+        // console.log(`created at ${timestamp} sec.`)
+        let testComment = {
+          created_at: timestamp,
+          title: this.commentTitle,
+          body: this.commentBody
+        }
+        this.$http.post(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments`, testComment)
+          .then(function (data) {
+            console.log(data)
+          })
+      } else {
+        console.log(`Check input.`)
+      }
+    }
   }
 }
 </script>
@@ -90,21 +123,21 @@ export default {
 <style lang="sass" scoped>
 
 .home-view-layout
-  border: 2px solid red
+  // border: 2px solid red
   width: 100%
   display: flex
   flex-direction: column
   align-items: center
 
-.header-container
-  width: 70%
-  border: 1px solid green
+.header
+  width: 80%
+  // border: 1px solid green
+  h1
+    font-size: 4em
 
 .home-title
   font-size: 2.2em
   line-height: 1.3
-  h1
-    // padding: 0em 7em 0em 3.5em
 
 .main-image
   height: 470px
@@ -122,18 +155,20 @@ export default {
   justify-content: center
   background-color: #f7f7f7
   .description-wrapper
-    border: 1px solid pink
-    width: 70%
+    display: flex
+    padding: 2em 0em 2em 0em
+    // border: 1px solid pink
+    width: 80%
 
 .description
   // border: 1px solid green
-  // flex-grow: 1
-  // flex-basis: 0
-  // padding: 3em
+  flex-grow: 1
+  flex-basis: 0
+  padding: 2em
   ul
-    // padding-left: 1em
+    padding-left: 1em
   li
-    // padding: .4em 0em .4em 0em
+    padding: .4em 0em .4em 0em
 
 .description:first-child
   padding-left: 0
@@ -142,17 +177,16 @@ export default {
   padding-right: 0
 
 .write-comment-section
-  border: 1px solid blue
-  // padding: 10em 12em 0em 12em
-  // height: 574px
+  // border: 1px solid blue
+  padding: 8em 0em 8em 0em
   display: flex
   justify-content: center
-  // background-color: #1d1e25
-  background-color: gray
+  background-color: #1d1e25
+  // background-color: gray
   width: 100%
   .write-comment-wrapper
-    border: 1px solid blue
-    width: 70%
+    // border: 1px solid blue
+    width: 80%
     display: flex
     justify-content: space-around
   p
@@ -162,7 +196,7 @@ export default {
   // border: 1px solid yellow
   flex: 0 35%
   color: white
-  font-size: 3em
+  font-size: 2.6em
   line-height: 1
   &:after
     display: inline-block
@@ -178,25 +212,31 @@ export default {
   font-size: 1.3em
   form
     // width: 100%
-    border: 1px solid #60e3a1
+    // border: 1px solid #60e3a1
 
 .comment-title
+  color: white
   width: 100%
-  // margin-bottom: 1em
+  margin-bottom: .7em
   border: 1px solid #60e3a1
   border-radius: 5px
-  // padding: .3em
   // margin: 0
   background-color: #1d1e25
+  font-size: 1em
+  line-height: 2
 
 .comment-title::placeholder
   color: #60e3a1
+  padding-left: .3em
 
 .comment-text
+  line-height: 2
   border: 1px solid #60e3a1
   border-radius: 5px
+  font-size: 1.2em
   // padding: 1em
   width: 100%
+  color: white
   padding: 0
   // margin: 0
   height: 150px
@@ -205,6 +245,7 @@ export default {
 
 .comment-text::placeholder
   color: #60e3a1
+  padding-left: .3em
 
 .send-comment-button
   border: none

@@ -73,21 +73,21 @@ body
   justify-content: space-between
   align-content: center
   align-items: center
-  // padding: 50px 50px 0px 50px
-header
-  // border: 1px solid green
-  // padding: 50px
+  padding: 3em
+
 nav
   // border: 1px solid blue
   font-size: 16px
   text-transform: uppercase
   a
     text-decoration: none
-    // padding: 0em 1em 0em 1em
+    padding: 0em 1em 0em 1em
     color: black
+  a:last-child
+    padding-right: 0
 
 .router-view-layout
-  border: 1px solid green
+  // border: 1px solid green
   width: 100%
   display: flex
   justify-content: center
@@ -105,7 +105,7 @@ footer
   // position: absolute
   // width: 100%
   // bottom: 0
-  // padding: 1.5em 3em 1.5em 3em
+  padding: 1em 3em 1em 3em
   .contacts-container
     line-height: 1.8
   .copyrights
