@@ -1,23 +1,21 @@
 <template>
   <div id="app">
-    <!-- header & nav -->
+    <!-- Header & nav -->
     <div class="header-container">
-      <header><SvgLogo /></header>
+      <header><router-link to="/"><SvgLogo /></router-link></header>
       <nav>
-        <a href="#">about us</a>
-        <a href="#">write comment</a>
+        <a href="/#about">about us</a>
+        <a href="/#writeComment">write comment</a>
         <router-link to="/allComments">comments</router-link>
-        <!--router-link to="/">Home</router-link> |
-        <router-link to="/about">About</router-link-->
       </nav>
     </div>
-    <!-- router-view -->
+    <!-- Router-view -->
     <section class="router-view-layout">
       <router-view />
     </section>
-    <!-- spacer -->
+    <!-- Spacer -->
     <div class="spacer"></div>
-    <!-- footer -->
+    <!-- Footer -->
     <footer>
       <div class="contacts-container">
         mail@mailtest.com<br />
@@ -42,11 +40,16 @@ export default {
 </script>
 
 <style lang="sass">
+@import '@/assets/sass/mixins.sass'
+@import '@/assets/sass/vars.sass'
+
+html
+  scroll-behavior: smooth
 
 body
+  font-size: 16px
   margin: 0
   font-family: 'Tahoma Regular'
-  // font-family: 'Courier'
 
 .spacer
   flex: 1
@@ -55,11 +58,6 @@ body
   display: flex
   flex-direction: column
   min-height: 100vh
-  // border: 1px solid blue
-  // min-height: 100%
-  // flex: 1 0 auto
-  // position: relative
-  // padding-bottom: 4em // footer height var
 
 .wrapper
   min-height: 100%
@@ -68,46 +66,60 @@ body
   margin: 0 auto -4em
 
 .header-container
-  // border: 1px solid pink
   display: flex
-  justify-content: space-between
-  align-content: center
+  justify-content: space-around
   align-items: center
-  padding: 3em
+  padding: 1em 0em 1em 0em
+  +desktop(96dpi, 600px)
+    justify-content: space-between
+    padding: 3em
+  +handheld(2, 600px)
+    justify-content: space-between
+    padding: 3em
 
 nav
-  // border: 1px solid blue
-  font-size: 16px
   text-transform: uppercase
+  display: flex
+  flex-direction: column
+  +handheld(2, 600px)
+    flex-direction: row
+  +desktop(96dpi, 600px)
+    flex-direction: row
   a
     text-decoration: none
-    padding: 0em 1em 0em 1em
+    padding: .2em 0em .2em 0em
     color: black
-  a:last-child
-    padding-right: 0
+    display: flex
+    flex-direction: column
+    +handheld(2, 600px)
+      padding: 0em 1em 0em 1em
+    +desktop(96dpi, 600px)
+      padding: 0em 1em 0em 1em
+  a.router-link-active
+    &:before
+      content: ''
+      background-color: $yellow-accent
+      width: 100%
+      height: .1em
 
 .router-view-layout
-  // border: 1px solid green
   width: 100%
   display: flex
   justify-content: center
-  // padding-bottom: 4em // footer height var
 
 footer
-  // border: 1px solid black
-  // flex-shrink: 0
   display: flex
   height: 4em
   justify-content: space-between
   align-items: center
   color: white
-  background-color: #1d1e25
-  // position: absolute
-  // width: 100%
-  // bottom: 0
-  padding: 1em 3em 1em 3em
-  .contacts-container
-    line-height: 1.8
+  background-color: $dark-background
+  padding: 1em 1em 1em 1em
+  +handheld(2, 600px)
+    padding: 1em 3em 1em 3em
+  line-height: 1.5
+  font-size: .75em
   .copyrights
-    color: #4a4d5e
+    color: $copyright-color
+
 </style>

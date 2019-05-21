@@ -5,6 +5,14 @@ import Home from './views/Home.vue'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
+  scrollBehavior: (to, from, savedPosition) => {
+    if (to.hash) {
+      return { selector: to.hash }
+    } else {
+      return { x: 0, y: 0 }
+    }
+  },
   routes: [
     {
       path: '/',
@@ -22,9 +30,6 @@ export default new Router({
     {
       path: '/singleComment/:id',
       name: 'singleComment',
-      // route level code-splitting
-      // this generates a separate chunk (singleComment.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "SingleComment" */ './views/SingleComment.vue')
     }
   ]

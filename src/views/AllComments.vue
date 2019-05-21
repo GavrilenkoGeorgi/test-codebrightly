@@ -3,31 +3,34 @@
     <h1>Comments</h1>
     <div class="comments-container">
       <div class="single-comment"
-        v-for="(comment, index) in blogs"
+        v-for="(comment, index) in comments"
         :key="index"
       >
         <span class="comment-title">{{ comment.title }}</span><br />
         <p class="comment-body">{{ comment.body }}</p>
-        <router-link
-          class="read-more-link"
-          :to="{ name: 'singleComment', params: { id: comment.id }}"
+        <button
+          class="comment-button"
+          @click.prevent="navToSingleComment(comment.id)"
         >
           Read more
-        </router-link>
-        <button
-          @click.prevent="deleteComment(comment.id)"
-        >
-          delete comment
         </button>
         <button
+          class="comment-button"
+          @click.prevent="deleteComment(comment.id)"
+        >
+          Delete
+        </button>
+        <button
+          class="comment-button"
           @click.prevent="showUpdateModal(comment.title, comment.body, comment.id)"
         >
-          update comment
+          Update
         </button>
       </div>
     </div>
-    <!-- controls -->
+    <!-- Back button -->
     <homeButton />
+    <!-- Update comment modal window -->
     <modal
       name="update-comment"
       :adaptive="true"
@@ -88,7 +91,7 @@ export default {
   },
   data () {
     return {
-      blogs: [],
+      comments: [],
       commentTitle: undefined,
       commentBody: undefined,
       commentId: undefined
@@ -99,26 +102,20 @@ export default {
       .then(data => {
         // last six comments
         let sliceStartIndex = data.body.length
-        sliceStartIndex = sliceStartIndex - 6
-        // console.log(`Index to slice is ${sliceStartIndex}`)
-        this.blogs = data.body.slice(sliceStartIndex)
-        // console.table(this.blogs)
+        sliceStartIndex -= 6
+        this.comments = data.body.slice(sliceStartIndex)
       })
   },
   methods: {
     deleteComment (id) {
-      // console.log(`Deleteing comment with id ${id}`)
       this.$http.delete(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments/${id}`)
-        .then(response => {
+        .then(() => {
           console.log(`Comment deleted.`)
-          // console.log(response)
         })
     },
     updateComment (id) {
-      // console.log(`Updating comment with id ${id}`)
       let date = new Date()
       let timestamp = date.getTime()
-      // console.log(`created at ${timestamp} sec.`)
       let updatedComment = {
         created_at: timestamp,
         title: this.commentTitle,
@@ -126,8 +123,6 @@ export default {
       }
       this.$http.put(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments/${id}`, updatedComment)
         .then(response => {
-          // console.log(`Comment updated.`)
-          // console.log(response)
           this.hideUpdateModal()
         })
     },
@@ -142,12 +137,12 @@ export default {
       this.$modal.hide('update-comment')
     },
     beforeOpen (event) {
-      console.log(event.params.title)
       this.commentTitle = event.params.title
       this.commentBody = event.params.body
       this.commentId = event.params.id
-      console.log(event.params.body)
-      console.log(event.params.id)
+    },
+    navToSingleComment (id) {
+      this.$router.push(`singleComment/${id}`)
     }
   }
 }
@@ -155,41 +150,55 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+@import '@/assets/sass/mixins.sass'
+@import '@/assets/sass/vars.sass'
+
 h1
   font-size: 3em
 
 section
-  // border: 1px solid pink
-  width: 70%
+  padding: 0em 1em 0em 1em
+  +handheld(2, 600px)
+    width: $main-layout-width
+  +desktop(96dpi, 900px)
+    width: $main-layout-width
+  +handheld(2, 1500px)
+    width: 50%
+  +desktop(96dpi, 1280px)
+    width: 60%
 
 .comments-container
-  // border: 1px solid pink
-  // width: 70%
   display: flex
   flex-wrap: wrap
-  align-items: flex-start
-  // align-items: stretch
-  // align-content: flex-start
-  // justify-content: space-between
-  // padding: 0em 2em 0em 2em
+  flex-direction: column
+  justify-content: space-between
+  +handheld(2, 900px)
+    flex-direction: row
+  +desktop(96dpi, 1280px)
+    flex-direction: row
+  div
+    flex: 0 50%
+    padding: 2em 0em 2em 0em
   .single-comment
-    padding: 2em 1.2em 2em 1.2em
-    flex: 0 45%
-    // box-sizing:border-box
-    // -webkit-box-shadow: 10px 10px 27px -6px rgba(150,150,150,1)
-    // -moz-box-shadow: 10px 10px 27px -6px rgba(150,150,150,1)
+    box-sizing: border-box
+    padding: 1em
+    width: 100%
+    height: 100%
+    // -webkit-box-shadow: 5px 5px 20px -6px rgba(200,200,200,1)
+    // -moz-box-shadow: 5px 5px 20px -6px rgba(200,200,200,1)
     box-shadow: 5px 5px 20px -6px rgba(200,200,200,1)
     .comment-title
       font-size: 1.3em
     .comment-body
       color: gray
-    .read-more-link
-      text-decoration: none
-      background-color: #60e3a1
-      border-radius: .2em
-      width: 8em
-      height: 3em
-      border: 0
+
+.comment-button, .modal-button
+  border: none
+  background-color: $green-accent
+  border-radius: 5px
+  width: 6.5em
+  height: 3em
+  margin: .3em
 
 .lower-part
   text-align: center
@@ -199,7 +208,7 @@ section
   .back-button
     background-color: white
     border: none
-    border: .075em solid #60e3a1
+    border: .075em solid $green-accent
     height: 3em
     border-radius: .2em
 
@@ -211,23 +220,17 @@ section
     width: 100%
     padding: 0
     margin-bottom: .7em
-    border: 1px solid #60e3a1
+    border: 1px solid $green-accent
     border-radius: 5px
     line-height: 2
   .comment-text
     line-height: 2
-    border: 1px solid #60e3a1
+    border: 1px solid $green-accent
     border-radius: 5px
     width: 100%
     padding: 0
     height: 10em
     margin-bottom: 1em
     resize: none
-  .modal-button
-    border: none
-    background-color: #60e3a1
-    border-radius: 5px
-    width: 6em
-    height: 2em
-    margin: .3em
+
 </style>

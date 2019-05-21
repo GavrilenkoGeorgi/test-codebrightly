@@ -1,6 +1,13 @@
 <template>
-  <section id="single-comment">
-    <router-link to="/allComments"> x-- Back to comments</router-link>
+  <section class="single-comment">
+    <router-link
+      class="go-back-link"
+      to="/allComments"
+    >
+      <backArrowIcon
+        class="back-icon"
+      />Back to comments
+    </router-link>
     <h1>{{ comment.title }}</h1>
     <p>{{ comment.body }}</p>
     <homeButton />
@@ -9,46 +16,55 @@
 
 <script>
 import homeButton from '@/components/homeButton.vue'
-import router from 'vue-router'
-// import { mapGetters, mapActions } from 'vuex'
+import backArrowIcon from '@/assets/svg/backArrowIcon.svg'
 
 export default {
   name: 'singleComment',
   components: {
-    homeButton
+    homeButton,
+    backArrowIcon
   },
   data () {
     return {
       comment: {}
     }
   },
-  /*
-  computed: {
-    ...mapGetters([
-      `getCommentToDisplay`
-    ])
-  }, */
   created () {
     this.$http.get(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments/${this.$route.params.id}`)
       .then(data => {
         this.comment = data.body
       })
-  },
-  methods: {
-    /*
-    ...mapActions([
-      `setSingleComment`
-    ]), */
-    navigate () {
-      router.go(-1)
-    }
   }
 }
 
 </script>
 
 <style lang="sass" scoped>
-#single-comment
-  border: 1px solid pink
-  width: 70%
+@import '@/assets/sass/mixins.sass'
+@import '@/assets/sass/vars.sass'
+
+.single-comment
+  padding: 0em 1em 0em 1em
+  +handheld(2, 600px)
+    padding: 0
+    width: $main-layout-width
+  +handheld(2, 1500px)
+    width: 50%
+  h1
+    font-size: 1.6em
+  p
+    font-size: .9em
+    line-height: 1.6
+    +handheld(2, 600px)
+      font-size: 1.2em
+
+.go-back-link
+  display: flex
+  align-items: center
+  color: black
+  +handheld(2, 600px)
+    font-size: 1.2em
+  .back-icon
+    padding-right: .6em
+
 </style>

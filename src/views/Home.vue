@@ -1,10 +1,17 @@
 <template>
   <main class="home-view-layout">
+    <!-- Page header with image -->
     <div class="header">
-      <h1>Lorem Ipsum is simply <br />dummy text of the printing<br /> and typesetting industry</h1>
+      <div class="header-width">
+        <h1>
+          Lorem Ipsum is simply dummy text of
+          the printing and typesetting industry
+        </h1>
+      </div>
     </div>
     <img class="main-image" src="../assets/images/homePageTitle.jpg" />
-    <article class="about">
+    <!-- Three blocks with description text -->
+    <article id="about" class="about">
       <div class="description-wrapper">
         <div class="description">
           <weAreIcon />
@@ -37,7 +44,8 @@
         </div>
       </div>
     </article>
-    <article class="write-comment-section">
+    <!-- Write comment form -->
+    <article id="writeComment" class="write-comment-section">
       <div class="write-comment-wrapper">
         <div class="form-title">
           <p>Write<br />comment</p>
@@ -97,21 +105,14 @@ export default {
     sendComment () {
       // validation needed
       if (this.commentTitle && this.commentBody) {
-        // console.log(`Sending comment`)
-        // console.log(this.commentTitle)
-        // console.log(this.commentBody)
         let date = new Date()
         let timestamp = date.getTime()
-        // console.log(`created at ${timestamp} sec.`)
         let testComment = {
           created_at: timestamp,
           title: this.commentTitle,
           body: this.commentBody
         }
         this.$http.post(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments`, testComment)
-          .then(function (data) {
-            console.log(data)
-          })
       } else {
         console.log(`Check input.`)
       }
@@ -121,19 +122,30 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+@import '@/assets/sass/mixins.sass'
+@import '@/assets/sass/vars.sass'
 
 .home-view-layout
-  // border: 2px solid red
   width: 100%
   display: flex
   flex-direction: column
   align-items: center
 
 .header
-  width: 80%
-  // border: 1px solid green
+  padding: 0em 1em 0em 1em
+  +handheld(2, 600px)
+    width: $main-layout-width
+  +desktop(96dpi, 600px)
+    width: $main-layout-width
+  .header-width
+    +handheld(2, 600px)
+      width: 85%
+    +desktop(96dpi, 600px)
+      width: 85%
   h1
-    font-size: 4em
+    font-size: 2em
+    +handheld(2, 600px)
+      font-size: 4em
 
 .home-title
   font-size: 2.2em
@@ -145,23 +157,26 @@ export default {
   object-fit: cover
 
 .image-container
-  background-color: #f7f7f7
+  background-color: $gray-background
 
 .about
   width: 100%
-  // padding: 0em 12em 0em 12em
-  // height: 470px
   display: flex
   justify-content: center
-  background-color: #f7f7f7
+  background-color: $gray-background
   .description-wrapper
     display: flex
-    padding: 2em 0em 2em 0em
-    // border: 1px solid pink
-    width: 80%
+    flex-direction: column
+    +handheld(2, 600px)
+      flex-direction: row
+      padding: 2em 0em 2em 0em
+      width: $main-layout-width
+    +desktop(96dpi, 900px)
+      flex-direction: row
+      padding: 2em 0em 2em 0em
+      width: $main-layout-width
 
 .description
-  // border: 1px solid green
   flex-grow: 1
   flex-basis: 0
   padding: 2em
@@ -171,80 +186,80 @@ export default {
     padding: .4em 0em .4em 0em
 
 .description:first-child
-  padding-left: 0
+  +handheld(2, 600px)
+    padding-left: 0
+  +desktop(96dpi, 900px)
+    padding-left: 0
 
 .description:last-child
-  padding-right: 0
+  +handheld(2, 600px)
+    padding-right: 0
+  +desktop(96dpi, 900px)
+    padding-right: 0
 
 .write-comment-section
-  // border: 1px solid blue
-  padding: 8em 0em 8em 0em
+  padding: 4em 0em 4em 0em
   display: flex
   justify-content: center
-  background-color: #1d1e25
-  // background-color: gray
+  background-color: $dark-background
+  border-bottom: 1px solid gray
   width: 100%
   .write-comment-wrapper
-    // border: 1px solid blue
-    width: 80%
+    width: $main-layout-width
     display: flex
+    flex-direction: column
     justify-content: space-around
+    +handheld(2, 600px)
+      flex-direction: row
+    +desktop(96dpi, 900px)
+      flex-direction: row
   p
     margin: 0
 
 .form-title
-  // border: 1px solid yellow
   flex: 0 35%
   color: white
   font-size: 2.6em
-  line-height: 1
   &:after
     display: inline-block
     content: ''
-    // border: 2px solid red
-    background-color: #f9d10d
+    background-color: $yellow-accent
     width: 1.5em
     height: .1em
+    margin-bottom: .5em
 
 .form-container
   flex: 0 55%
-  // border: 1px solid #60e3a1
   font-size: 1.3em
-  form
-    // width: 100%
-    // border: 1px solid #60e3a1
 
 .comment-title
   color: white
   width: 100%
   margin-bottom: .7em
-  border: 1px solid #60e3a1
+  border: 1px solid $green-accent
   border-radius: 5px
-  // margin: 0
-  background-color: #1d1e25
-  font-size: 1em
+  background-color: $dark-background
+  font-size: 1.2em
   line-height: 2
 
 .comment-title::placeholder
-  color: #60e3a1
+  color: $green-accent
   padding-left: .3em
 
 .comment-text
   line-height: 2
-  border: 1px solid #60e3a1
+  border: 1px solid $green-accent
   border-radius: 5px
   font-size: 1.2em
-  // padding: 1em
   width: 100%
   color: white
   padding: 0
-  // margin: 0
   height: 150px
   resize: none
-  background-color: #1d1e25
+  background-color: $dark-background
 
 .comment-text::placeholder
-  color: #60e3a1
+  color: $green-accent
   padding-left: .3em
 
 .send-comment-button
@@ -253,7 +268,7 @@ export default {
   height: 55px
   margin-top: .8em
   border-radius: 5px
-  background-color: #60e3a1
-  font-size: .8em
+  background-color: $green-accent
+  font-size: .9em
 
 </style>
