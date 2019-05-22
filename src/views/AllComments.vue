@@ -1,13 +1,19 @@
 <template>
   <section id="show-comments">
     <h1>Comments</h1>
+    <!-- All comments -->
     <div class="comments-container">
       <div class="single-comment"
-        v-for="(comment, index) in comments"
+        v-for="(comment, index) in getAllComments"
         :key="index"
       >
-        <span class="comment-title">{{ comment.title }}</span><br />
-        <p class="comment-body">{{ comment.body }}</p>
+        <span class="comment-title">
+          {{ comment.title }}
+        </span>
+        <br />
+        <p class="comment-body">
+          {{ comment.body }}
+        </p>
         <button
           class="comment-button"
           @click.prevent="navToSingleComment(comment.id)"
@@ -81,7 +87,7 @@
 </template>
 
 <script>
-
+import { mapGetters, mapActions } from 'vuex'
 import homeButton from '@/components/homeButton.vue'
 
 export default {
@@ -89,42 +95,42 @@ export default {
   components: {
     homeButton
   },
+  computed: {
+    ...mapGetters([
+      `getAllComments`
+    ])
+  },
   data () {
     return {
-      comments: [],
+      // for updating comments
+      // in modal window
       commentTitle: undefined,
       commentBody: undefined,
       commentId: undefined
     }
   },
   created () {
-    this.$http.get(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments`)
-      .then(data => {
-        // last six comments
-        let sliceStartIndex = data.body.length
-        sliceStartIndex -= 6
-        this.comments = data.body.slice(sliceStartIndex)
-      })
+    this.$store.dispatch(`setAllComments`)
   },
   methods: {
+    ...mapActions([
+      `setAllComments`
+    ]),
     deleteComment (id) {
-      this.$http.delete(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments/${id}`)
-        .then(() => {
-          console.log(`Comment deleted.`)
-        })
+      this.$store.dispatch(`deleteComment`, id)
     },
     updateComment (id) {
       let date = new Date()
       let timestamp = date.getTime()
       let updatedComment = {
+        id: id,
         created_at: timestamp,
         title: this.commentTitle,
         body: this.commentBody
       }
-      this.$http.put(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments/${id}`, updatedComment)
-        .then(response => {
-          this.hideUpdateModal()
-        })
+      this.$store.dispatch(`updateComment`, updatedComment).then(() => {
+        this.hideUpdateModal()
+      })
     },
     showUpdateModal (title, body, id) {
       this.$modal.show('update-comment', {
@@ -146,7 +152,6 @@ export default {
     }
   }
 }
-
 </script>
 
 <style lang="sass" scoped>
@@ -184,8 +189,6 @@ section
     padding: 1em
     width: 100%
     height: 100%
-    // -webkit-box-shadow: 5px 5px 20px -6px rgba(200,200,200,1)
-    // -moz-box-shadow: 5px 5px 20px -6px rgba(200,200,200,1)
     box-shadow: 5px 5px 20px -6px rgba(200,200,200,1)
     .comment-title
       font-size: 1.3em

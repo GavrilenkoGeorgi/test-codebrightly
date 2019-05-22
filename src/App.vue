@@ -2,11 +2,21 @@
   <div id="app">
     <!-- Header & nav -->
     <div class="header-container">
-      <header><router-link to="/"><SvgLogo /></router-link></header>
+      <header>
+        <router-link to="/">
+          <SvgLogo />
+        </router-link>
+      </header>
       <nav>
-        <a href="/#about">about us</a>
-        <a href="/#writeComment">write comment</a>
-        <router-link to="/allComments">comments</router-link>
+        <a href="/#about">
+          about us
+        </a>
+        <a href="/#writeComment">
+          write comment
+        </a>
+        <router-link to="/allComments">
+          comments
+        </router-link>
       </nav>
     </div>
     <!-- Router-view -->

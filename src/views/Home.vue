@@ -53,22 +53,46 @@
 
         <div class="form-container">
           <form>
-            <input
-              class="comment-title"
-              type="text"
-              name="title"
-              placeholder="Title"
-              v-model="commentTitle"
-            >
+            <div class="form-group" >
+              <input
+                class="comment-title"
+                :class="{ 'error': $v.commentTitle.$error }"
+                type="text"
+                name="title"
+                placeholder="Title"
+                onfocus="this.placeholder=''"
+                onblur="this.placeholder='Title'"
+                v-model.trim="$v.commentTitle.$model"
+              >
+              <div
+                class="validation-error"
+                v-if="!$v.commentTitle.minLength"
+              >
+                Title must have at least
+                  {{ $v.commentTitle.$params.minLength.min }}
+                letters.
+              </div>
+            </div>
             <br />
             <textarea
               class="comment-text"
+              :class="{ 'error': $v.commentBody.$error }"
               type="text"
               name="comment"
               placeholder="Your comment"
-              v-model="commentBody"
+              onfocus="this.placeholder=''"
+              onblur="this.placeholder='Your comment'"
+              v-model.trim="$v.commentBody.$model"
             >
             </textarea>
+            <div
+              class="validation-error"
+              v-if="!$v.commentBody.minLength"
+            >
+              Comment must have at least
+                {{ $v.commentBody.$params.minLength.min }}
+              letters.
+            </div>
             <br />
             <button
               class="send-comment-button"
@@ -84,6 +108,7 @@
 </template>
 
 <script>
+import { required, minLength } from 'vuelidate/lib/validators'
 import weAreIcon from '@/assets/svg/weAreIcon.svg'
 import weDoIcon from '@/assets/svg/weDoIcon.svg'
 import techIcon from '@/assets/svg/techIcon.svg'
@@ -101,10 +126,24 @@ export default {
       commentBody: undefined
     }
   },
+  validations: {
+    commentTitle: {
+      required,
+      minLength: minLength(4)
+    },
+    commentBody: {
+      required,
+      minLength: minLength(10)
+    }
+  },
   methods: {
     sendComment () {
-      // validation needed
-      if (this.commentTitle && this.commentBody) {
+      // if all is ok
+      if (!this.$v.commentTitle.$error &&
+        !this.$v.commentBody.$error &&
+        this.commentTitle &&
+        this.commentBody) {
+        // create new comment
         let date = new Date()
         let timestamp = date.getTime()
         let testComment = {
@@ -112,9 +151,11 @@ export default {
           title: this.commentTitle,
           body: this.commentBody
         }
+        // then post it
         this.$http.post(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments`, testComment)
-      } else {
-        console.log(`Check input.`)
+          .then(() => {
+            this.$router.push(`/allComments`)
+          })
       }
     }
   }
@@ -242,6 +283,9 @@ export default {
   font-size: 1.2em
   line-height: 2
 
+.comment-title.error
+  border: 1px solid red
+
 .comment-title::placeholder
   color: $green-accent
   padding-left: .3em
@@ -270,5 +314,8 @@ export default {
   border-radius: 5px
   background-color: $green-accent
   font-size: .9em
+
+.validation-error
+  color: white
 
 </style>

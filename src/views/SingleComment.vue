@@ -1,5 +1,6 @@
 <template>
   <section class="single-comment">
+    <!-- Back link -->
     <router-link
       class="go-back-link"
       to="/allComments"
@@ -8,13 +9,19 @@
         class="back-icon"
       />Back to comments
     </router-link>
-    <h1>{{ comment.title }}</h1>
-    <p>{{ comment.body }}</p>
+    <!-- Comment title and body -->
+    <h1>
+      {{ getSingleComment.commentTitle }}
+    </h1>
+    <p>
+      {{ getSingleComment.commentBody }}
+    </p>
     <homeButton />
   </section>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import homeButton from '@/components/homeButton.vue'
 import backArrowIcon from '@/assets/svg/backArrowIcon.svg'
 
@@ -24,19 +31,20 @@ export default {
     homeButton,
     backArrowIcon
   },
-  data () {
-    return {
-      comment: {}
-    }
+  computed: {
+    ...mapGetters([
+      `getSingleComment`
+    ])
   },
   created () {
-    this.$http.get(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments/${this.$route.params.id}`)
-      .then(data => {
-        this.comment = data.body
-      })
+    this.$store.dispatch(`setSingleComment`, this.$route.params.id)
+  },
+  methods: {
+    ...mapActions([
+      `setSingleComment`
+    ])
   }
 }
-
 </script>
 
 <style lang="sass" scoped>
