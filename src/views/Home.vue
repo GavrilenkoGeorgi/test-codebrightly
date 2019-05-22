@@ -28,7 +28,7 @@
           <h2>What we do</h2>
           <ul>
             <li>Many desktop publishing packages and web page</li>
-            <li>There are many variatins of passages of Lorem Ipsum available, but the majority have</li>
+            <li>There are many variations of passages of Lorem Ipsum available, but the majority have</li>
             <li>Various versions have evolved over the years, sometimes by accident</li>
           </ul>
         </div>
@@ -38,7 +38,7 @@
           <ul>
             <li>The point of using Lorem Ipsum</li>
             <li>As opposed to using 'Content here, content here'</li>
-            <li>Contrary to polular belief, Lorem Ipsum is not simply random text</li>
+            <li>Contrary to popular belief, Lorem Ipsum is not simply random text</li>
             <li>A Latin professor at Hampden-Sydney College in Virginia</li>
           </ul>
         </div>
@@ -151,8 +151,7 @@ export default {
           title: this.commentTitle,
           body: this.commentBody
         }
-        // then post it
-        this.$http.post(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments`, testComment)
+        this.$store.dispatch(`sendComment`, testComment)
           .then(() => {
             this.$router.push(`/allComments`)
           })
