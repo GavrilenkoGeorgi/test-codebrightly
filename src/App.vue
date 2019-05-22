@@ -3,7 +3,10 @@
     <!-- Header & nav -->
     <div class="header-container">
       <header>
-        <router-link to="/">
+        <router-link
+          to="/"
+          aria-label="Back to home page."
+        >
           <SvgLogo />
         </router-link>
       </header>
@@ -60,7 +63,6 @@ html
 body
   font-size: 16px
   margin: 0
-  // font-family: 'Tahoma Regular'
 
 .spacer
   flex: 1
@@ -98,7 +100,7 @@ nav
     flex-direction: row
   a
     text-decoration: none
-    padding: .2em 0em .2em 0em
+    padding: .4em 0em .4em 0em
     color: black
     display: flex
     flex-direction: column

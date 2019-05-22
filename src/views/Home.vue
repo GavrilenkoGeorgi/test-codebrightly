@@ -9,7 +9,10 @@
         </h1>
       </div>
     </div>
-    <img class="main-image" src="../assets/images/homePageTitle.jpg" />
+    <img
+      class="main-image"
+      src="../assets/images/homePageTitle.jpg"
+      alt="Hero image"/>
     <!-- Three blocks with description text -->
     <article id="about" class="about">
       <div class="description-wrapper">
@@ -59,6 +62,7 @@
                 :class="{ 'error': $v.commentTitle.$error }"
                 type="text"
                 name="title"
+                aria-label="Comment title"
                 placeholder="Title"
                 onfocus="this.placeholder=''"
                 onblur="this.placeholder='Title'"
@@ -79,6 +83,7 @@
               :class="{ 'error': $v.commentBody.$error }"
               type="text"
               name="comment"
+              aria-label="Comment text"
               placeholder="Your comment"
               onfocus="this.placeholder=''"
               onblur="this.placeholder='Your comment'"
