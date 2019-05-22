@@ -62,11 +62,12 @@ export default new Vuex.Store({
     setAllComments: async ({ commit }) => {
       let response = await Vue.http.get(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments`)
       if (response.status === 200) {
-        let sliceStartIndex = response.body.length
+        // let sliceStartIndex = response.body.length
         // show last six comments
-        sliceStartIndex -= 6
-        let commentsToDisplay = response.body.slice(sliceStartIndex)
-        commit(`setAllComments`, commentsToDisplay)
+        // sliceStartIndex -= 6
+        // let commentsToDisplay = response.body.slice(sliceStartIndex)
+        // console.log(commentsToDisplay)
+        commit(`setAllComments`, response.body)
       }
     },
     deleteComment: async ({ commit }, id) => {
