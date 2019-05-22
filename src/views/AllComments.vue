@@ -160,6 +160,7 @@ export default {
 
 h1
   font-size: 3em
+  font-variation-settings: 'wght' 475
 
 section
   padding: 0em 1em 0em 1em
@@ -192,6 +193,7 @@ section
     box-shadow: 5px 5px 20px -6px rgba(200,200,200,1)
     .comment-title
       font-size: 1.3em
+      font-variation-settings: 'wght' 550
     .comment-body
       color: gray
 

@@ -52,6 +52,7 @@ export default {
 <style lang="sass">
 @import '@/assets/sass/mixins.sass'
 @import '@/assets/sass/vars.sass'
+@import '@/assets/sass/fonts.sass'
 
 html
   scroll-behavior: smooth
@@ -59,7 +60,7 @@ html
 body
   font-size: 16px
   margin: 0
-  font-family: 'Tahoma Regular'
+  // font-family: 'Tahoma Regular'
 
 .spacer
   flex: 1
@@ -101,6 +102,7 @@ nav
     color: black
     display: flex
     flex-direction: column
+    font-variation-settings: 'wght' 475
     +handheld(2, 600px)
       padding: 0em 1em 0em 1em
     +desktop(96dpi, 600px)
@@ -125,11 +127,13 @@ footer
   color: white
   background-color: $dark-background
   padding: 1em 1em 1em 1em
+  font-size: .75em
+  line-height: 1.5
   +handheld(2, 600px)
     padding: 1em 3em 1em 3em
-  line-height: 1.5
-  font-size: .75em
+    line-height: 1.5
+    font-size: .75em
   .copyrights
     color: $copyright-color
-
+    text-align: right
 </style>

@@ -60,6 +60,7 @@ export default {
     width: 50%
   h1
     font-size: 1.6em
+    font-variation-settings: 'wght' 475
   p
     font-size: .9em
     line-height: 1.6

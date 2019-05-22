@@ -1,0 +1,18 @@
+$default-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+
+@font-face
+  font-family: 'Avenir Next Variable'
+  font-display: swap
+  src: local('AvenirNext_Variable')
+  src: url('assets/fonts/AvenirNext_Variable.ttf') format('truetype-variations')
+
+body
+  font-family: $default-font
+
+@supports (font-variation-settings: 'wdth' 400)
+  body
+    font-family: 'Avenir Next Variable'
+    // 400-900
+    font-variation-settings: 'wght' 400
+    // 75-100
+    font-variation-settings: 'wdth' 100

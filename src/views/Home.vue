@@ -184,8 +184,12 @@ export default {
     +desktop(96dpi, 600px)
       width: 85%
   h1
-    font-size: 2em
+    font-size: 2.3em
+    font-variation-settings: 'wght' 500
+    line-height: 1.2
     +handheld(2, 600px)
+      font-size: 4em
+    +desktop(96dpi, 600px)
       font-size: 4em
 
 .home-title
@@ -210,17 +214,20 @@ export default {
     flex-direction: column
     +handheld(2, 600px)
       flex-direction: row
-      padding: 2em 0em 2em 0em
+      padding: 2.5em 0em 2.5em 0em
       width: $main-layout-width
     +desktop(96dpi, 900px)
       flex-direction: row
-      padding: 2em 0em 2em 0em
+      padding: 2.5em 0em 2.5em 0em
       width: $main-layout-width
 
 .description
   flex-grow: 1
   flex-basis: 0
   padding: 2em
+  h2
+    font-size: 2.2em
+    font-variation-settings: 'wght' 500
   ul
     padding-left: 1em
   li
@@ -256,6 +263,7 @@ export default {
       flex-direction: row
   p
     margin: 0
+    font-variation-settings: 'wght' 575
 
 .form-title
   flex: 0 35%
