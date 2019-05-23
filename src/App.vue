@@ -128,7 +128,7 @@ footer
   align-items: center
   color: white
   background-color: $dark-background
-  padding: 1em 1em 1em 1em
+  padding: 1em
   font-size: .75em
   line-height: 1.5
   +handheld(2, 600px)

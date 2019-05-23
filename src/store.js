@@ -49,7 +49,6 @@ export default new Vuex.Store({
   actions: {
     showSingleComment: async ({ commit }, id) => {
       let response = await Vue.http.get(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments/${id}`)
-      console.log(response.status)
       if (response.status === 200) {
         let data = response.body
         let comment = {

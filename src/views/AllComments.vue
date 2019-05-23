@@ -190,7 +190,7 @@ section
     padding: 1em
     width: 100%
     height: 100%
-    box-shadow: 5px 5px 20px -6px rgba(200,200,200,1)
+    box-shadow: 0.2125em 0.2125em 1em -0.3125em rgba(200,200,200,1)
     .comment-title
       font-size: 1.3em
       font-variation-settings: 'wght' 550
@@ -200,7 +200,7 @@ section
 .comment-button, .modal-button
   border: none
   background-color: $green-accent
-  border-radius: 5px
+  border-radius: $default-border-radius
   width: 6.5em
   height: 3em
   margin: .3em
@@ -225,13 +225,13 @@ section
     width: 100%
     padding: 0
     margin-bottom: .7em
-    border: 1px solid $green-accent
-    border-radius: 5px
+    border: 0.0625em solid $green-accent
+    border-radius: $default-border-radius
     line-height: 2
   .comment-text
     line-height: 2
-    border: 1px solid $green-accent
-    border-radius: 5px
+    border: 0.0625em solid $green-accent
+    border-radius: $default-border-radius
     width: 100%
     padding: 0
     height: 10em

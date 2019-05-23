@@ -101,6 +101,7 @@
             <br />
             <button
               class="send-comment-button"
+              :class="{ 'disabled': $v.commentTitle.$error || $v.commentBody.$error }"
               @click.prevent="sendComment()"
             >
               Send
@@ -109,6 +110,19 @@
         </div>
       </div>
     </article>
+    <!-- Confirm comment add modal -->
+    <modal
+      name="confirm-comment"
+      :adaptive="true"
+      :width="300"
+      :height="150"
+    >
+      <div class="confirm-comment-modal">
+        <p>Your comment was successfully added.</p>
+        <button @click.prevent="hideModal">Close</button>
+        <button @click.prevent="navigateToComments">View comments</button>
+      </div>
+    </modal>
   </main>
 </template>
 
@@ -142,6 +156,21 @@ export default {
     }
   },
   methods: {
+    showModal () {
+      this.$modal.show('confirm-comment')
+    },
+    hideModal () {
+      this.$modal.hide('confirm-comment')
+    },
+    navigateToComments () {
+      this.$router.push(`/allComments`)
+    },
+    clearFormValues () {
+      this.commentTitle = undefined
+      this.commentBody = undefined
+      // and reset validation
+      this.$nextTick(() => { this.$v.$reset() })
+    },
     sendComment () {
       // if all is ok
       if (!this.$v.commentTitle.$error &&
@@ -158,7 +187,8 @@ export default {
         }
         this.$store.dispatch(`sendComment`, testComment)
           .then(() => {
-            this.$router.push(`/allComments`)
+            this.showModal()
+            this.clearFormValues()
           })
       }
     }
@@ -201,7 +231,7 @@ export default {
   line-height: 1.3
 
 .main-image
-  height: 470px
+  height: 30em
   width: 100%
   object-fit: cover
 
@@ -254,7 +284,7 @@ export default {
   display: flex
   justify-content: center
   background-color: $dark-background
-  border-bottom: 1px solid gray
+  border-bottom: 0.0625em solid gray
   width: 100%
   .write-comment-wrapper
     width: $main-layout-width
@@ -285,32 +315,32 @@ export default {
   flex: 0 55%
   font-size: 1.3em
 
+.comment-title, .comment-text
+  box-sizing: border-box
+  padding: 0.5em
+
 .comment-title
-  color: white
+  color: $green-accent
   width: 100%
-  margin-bottom: .7em
-  border: 1px solid $green-accent
-  border-radius: 5px
+  border: 0.0625em solid $green-accent
+  border-radius: $default-border-radius
   background-color: $dark-background
   font-size: 1.2em
-  line-height: 2
 
 .comment-title.error
-  border: 1px solid red
+  border: 0.0625em solid red
 
 .comment-title::placeholder
   color: $green-accent
   padding-left: .3em
 
 .comment-text
-  line-height: 2
-  border: 1px solid $green-accent
-  border-radius: 5px
+  border: 0.0625em solid $green-accent
+  border-radius: $default-border-radius
   font-size: 1.2em
   width: 100%
-  color: white
-  padding: 0
-  height: 150px
+  color: $green-accent
+  height: 7em
   resize: none
   background-color: $dark-background
 
@@ -320,14 +350,39 @@ export default {
 
 .send-comment-button
   border: none
-  width: 150px
-  height: 55px
+  width: 9em
+  height: 3em
   margin-top: .8em
-  border-radius: 5px
+  border-radius: $default-border-radius
   background-color: $green-accent
   font-size: .9em
 
-.validation-error
-  color: white
+.disabled
+  background-color: gray
 
+.validation-error
+  color: $yellow-accent
+  padding: .5em
+
+.confirm-comment-modal
+  color: $green-accent
+  background-color: $dark-background
+  padding: 1em
+  text-align: center
+  height: 100%
+  border: 0.0625em solid $green-accent
+  border-radius: $default-border-radius
+  box-sizing: border-box
+  p
+    margin: 0
+    padding-bottom: 1em
+    font-size: 1.1em
+  button
+    border: none
+    border-radius: $default-border-radius
+    background-color: $green-accent
+    height: 3em
+    width: 8em
+    margin: .2em
+    font-size: .9em
 </style>
