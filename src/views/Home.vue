@@ -120,7 +120,7 @@
       <div class="confirm-comment-modal">
         <p>Your comment was successfully added.</p>
         <button @click.prevent="hideModal">Close</button>
-        <button @click.prevent="navigateToComments">View comments</button>
+        <button @click.prevent="navigateToComments">All comments</button>
       </div>
     </modal>
   </main>
@@ -384,5 +384,6 @@ export default {
     height: 3em
     width: 8em
     margin: .2em
-    font-size: .9em
+    font-size: .8em
+    padding: 0em
 </style>
