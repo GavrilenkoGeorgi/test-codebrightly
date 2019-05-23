@@ -367,7 +367,7 @@ export default {
 .confirm-comment-modal
   color: $green-accent
   background-color: $dark-background
-  padding: 1em
+  padding: .5em
   text-align: center
   height: 100%
   border: 0.0625em solid $green-accent
