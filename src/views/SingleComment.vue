@@ -37,7 +37,7 @@ export default {
     ])
   },
   created () {
-    this.$store.dispatch(`showSingleComment`, this.$route.params.id)
+    this.showSingleComment(this.$route.params.id)
   },
   methods: {
     ...mapActions([
