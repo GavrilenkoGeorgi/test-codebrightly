@@ -1,5 +1,5 @@
 <template>
-  <main class="home-view-layout">
+  <section class="home-view-layout">
     <!-- Page header with image -->
     <div class="header">
       <div class="header-width">
@@ -70,11 +70,14 @@
               >
               <div
                 class="validation-error"
-                v-if="!$v.commentTitle.minLength"
+                v-if="!$v.commentTitle.minLength ||
+                      !$v.commentTitle.maxLength"
               >
                 Title must have at least
                   {{ $v.commentTitle.$params.minLength.min }}
-                letters.
+                letters min and
+                  {{ $v.commentTitle.$params.maxLength.max }}
+                letters max.
               </div>
             </div>
             <br />
@@ -92,16 +95,22 @@
             </textarea>
             <div
               class="validation-error"
-              v-if="!$v.commentBody.minLength"
+              v-if="!$v.commentBody.minLength ||
+                    !$v.commentBody.maxLength"
             >
               Comment must have at least
                 {{ $v.commentBody.$params.minLength.min }}
-              letters.
+              letters min and
+                {{ $v.commentBody.$params.maxLength.max }}
+              letters max.
             </div>
             <br />
             <button
               class="send-comment-button"
-              :class="{ 'disabled': $v.commentTitle.$error || $v.commentBody.$error }"
+              :class="{ 'disabled': this.$v.commentTitle.$error ||
+                this.$v.commentBody.$error ||
+                typeof this.commentTitle === 'undefined' ||
+                typeof this.commentBody === 'undefined' }"
               @click.prevent="sendComment()"
             >
               Send
@@ -114,20 +123,29 @@
     <modal
       name="confirm-comment"
       :adaptive="true"
-      :width="300"
-      :height="150"
+      :width="330"
     >
       <div class="confirm-comment-modal">
         <p>Your comment was successfully added.</p>
-        <button @click.prevent="hideModal">Close</button>
-        <button @click.prevent="navigateToComments">All comments</button>
+        <div class="modal-buttons-layout">
+          <button
+            @click.prevent="hideModal"
+          >
+            Close
+          </button>
+          <button
+            @click.prevent="navigateToComments"
+          >
+            All comments
+          </button>
+        </div>
       </div>
     </modal>
-  </main>
+  </section>
 </template>
 
 <script>
-import { required, minLength } from 'vuelidate/lib/validators'
+import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 import weAreIcon from '@/assets/svg/weAreIcon.svg'
 import weDoIcon from '@/assets/svg/weDoIcon.svg'
 import techIcon from '@/assets/svg/techIcon.svg'
@@ -148,11 +166,13 @@ export default {
   validations: {
     commentTitle: {
       required,
-      minLength: minLength(4)
+      minLength: minLength(4),
+      maxLength: maxLength(15)
     },
     commentBody: {
       required,
-      minLength: minLength(10)
+      minLength: minLength(5),
+      maxLength: maxLength(50)
     }
   },
   methods: {
@@ -326,6 +346,7 @@ export default {
   border-radius: $default-border-radius
   background-color: $dark-background
   font-size: 1.2em
+  margin-bottom: .2em
 
 .comment-title.error
   border: 0.0625em solid red
@@ -343,6 +364,7 @@ export default {
   height: 7em
   resize: none
   background-color: $dark-background
+  margin: .5em 0em 0em 0em
 
 .comment-text::placeholder
   color: $green-accent
@@ -352,31 +374,37 @@ export default {
   border: none
   width: 9em
   height: 3em
-  margin-top: .8em
+  margin-top: 2em
   border-radius: $default-border-radius
   background-color: $green-accent
   font-size: .9em
+  cursor: pointer
+  &.disabled
+    cursor: default
 
 .disabled
   background-color: gray
 
 .validation-error
   color: $yellow-accent
-  padding: .5em
+  position: absolute
+  font-size: .7em
 
 .confirm-comment-modal
   color: $green-accent
   background-color: $dark-background
-  padding: .5em
+  padding: 1em
   text-align: center
   height: 100%
   border: 0.0625em solid $green-accent
   border-radius: $default-border-radius
   box-sizing: border-box
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: space-around
   p
-    margin: 0
-    padding-bottom: 1em
-    font-size: 1.1em
+    font-size: 1.5em
   button
     border: none
     border-radius: $default-border-radius
@@ -386,4 +414,6 @@ export default {
     margin: .2em
     font-size: .8em
     padding: 0em
+  .modal-buttons-layout
+    display: inherit
 </style>

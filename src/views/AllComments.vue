@@ -1,5 +1,5 @@
 <template>
-  <section id="show-comments">
+  <article id="show-comments">
     <h1>Comments</h1>
     <!-- All comments -->
     <div class="comments-container">
@@ -83,7 +83,7 @@
         </div>
       </div>
     </modal>
-  </section>
+  </article>
 </template>
 
 <script>
@@ -162,7 +162,7 @@ h1
   font-size: 3em
   font-variation-settings: 'wght' 475
 
-section
+article
   padding: 0em 1em 0em 1em
   +handheld(2, 600px)
     width: $main-layout-width

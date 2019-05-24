@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <main id="app">
     <!-- Header & nav -->
     <div class="header-container">
       <header>
@@ -38,7 +38,7 @@
         Copyright &copy; 2019 Test All Rights Reserved.
       </div>
     </footer>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -104,17 +104,27 @@ nav
     color: black
     display: flex
     flex-direction: column
-    font-variation-settings: 'wght' 475
+    font-variation-settings: 'wght' 550
     +handheld(2, 600px)
       padding: 0em 1em 0em 1em
     +desktop(96dpi, 600px)
       padding: 0em 1em 0em 1em
   a.router-link-active
-    &:before
-      content: ''
-      background-color: $yellow-accent
-      width: 100%
-      height: .1em
+    color: $yellow-accent
+    +handheld(2, 600px)
+      color: black
+      &:before
+        content: ''
+        background-color: $yellow-accent
+        width: 100%
+        height: .1em
+    +desktop(96dpi, 600px)
+      color: black
+      &:before
+        content: ''
+        background-color: $yellow-accent
+        width: 100%
+        height: .1em
 
 .router-view-layout
   width: 100%
