@@ -1,5 +1,5 @@
 <template>
-  <article id="show-comments">
+  <article id="all-comments">
     <h1>Comments</h1>
     <!-- All comments -->
     <div class="comments-container">
@@ -50,18 +50,20 @@
           <form class="update-comment-form">
             <input
               class="comment-title"
+              :class="{ 'error': $v.commentTitle.$error }"
               type="text"
               name="title"
               placeholder="Title"
-              v-model="commentTitle"
+              v-model.trim="$v.commentTitle.$model"
             >
             <br />
             <textarea
               class="comment-text"
+              :class="{ 'error': $v.commentBody.$error }"
               type="text"
               name="comment"
               placeholder="Your comment"
-              v-model="commentBody"
+              v-model.trim="$v.commentBody.$model"
             >
             </textarea>
             <br />
@@ -88,10 +90,11 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 import homeButton from '@/components/homeButton.vue'
 
 export default {
-  name: 'getComments',
+  name: 'allComments',
   components: {
     homeButton
   },
@@ -109,6 +112,18 @@ export default {
       commentId: undefined
     }
   },
+  validations: {
+    commentTitle: {
+      required,
+      minLength: minLength(4),
+      maxLength: maxLength(15)
+    },
+    commentBody: {
+      required,
+      minLength: minLength(5),
+      maxLength: maxLength(50)
+    }
+  },
   created () {
     this.$store.dispatch(`setAllComments`)
   },
@@ -120,17 +135,22 @@ export default {
       this.$store.dispatch(`deleteComment`, id)
     },
     updateComment (id) {
-      let date = new Date()
-      let timestamp = date.getTime()
-      let updatedComment = {
-        id: id,
-        created_at: timestamp,
-        title: this.commentTitle,
-        body: this.commentBody
+      if (id && !this.$v.commentTitle.$error &&
+          !this.$v.commentBody.$error &&
+          this.commentTitle &&
+          this.commentBody) {
+        let date = new Date()
+        let timestamp = date.getTime()
+        let updatedComment = {
+          id: id,
+          created_at: timestamp,
+          title: this.commentTitle,
+          body: this.commentBody
+        }
+        this.$store.dispatch(`updateComment`, updatedComment).then(() => {
+          this.hideUpdateModal()
+        })
       }
-      this.$store.dispatch(`updateComment`, updatedComment).then(() => {
-        this.hideUpdateModal()
-      })
     },
     showUpdateModal (title, body, id) {
       this.$modal.show('update-comment', {
@@ -205,37 +225,29 @@ article
   height: 3em
   margin: .3em
 
-.lower-part
-  text-align: center
-  padding: 2em 0em 2em 0em
-  p
-    font-size: 1.3em
-  .back-button
-    background-color: white
-    border: none
-    border: .075em solid $green-accent
-    height: 3em
-    border-radius: .2em
+.modal-button:first-child
+  margin-left: 0
 
 .modal-container
-  padding: 0em 2em 0em 2em
+  padding: 1em
+  display: flex
+  flex-direction: column
+  p
+    font-size: 1.3em
 
 .update-comment-form
+  .comment-title, .comment-text
+    box-sizing: border-box
+    width: 100%
+    padding: .5em
+    border: .0625em solid $green-accent
+    border-radius: $default-border-radius
   .comment-title
-    width: 100%
-    padding: 0
     margin-bottom: .7em
-    border: 0.0625em solid $green-accent
-    border-radius: $default-border-radius
-    line-height: 2
   .comment-text
-    line-height: 2
-    border: 0.0625em solid $green-accent
-    border-radius: $default-border-radius
-    width: 100%
-    padding: 0
-    height: 10em
-    margin-bottom: 1em
+    height: 8em
     resize: none
+  .error
+    border: .08em solid red
 
 </style>

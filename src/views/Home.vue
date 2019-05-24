@@ -53,7 +53,6 @@
         <div class="form-title">
           <p>Write<br />comment</p>
         </div>
-
         <div class="form-container">
           <form>
             <div class="form-group" >
@@ -366,8 +365,9 @@ export default {
   font-size: 1.2em
   margin-bottom: .2em
 
-.comment-title.error
-  border: 0.0625em solid red
+.comment-title, .comment-text
+  &.error
+    border: 0.0625em solid $yellow-accent
 
 .comment-title::placeholder
   color: $green-accent

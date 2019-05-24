@@ -1,7 +1,7 @@
 # Test assingnment for CodeBright
 Vue, Vuex, Vue Router, SASS, Vue-cli.
 Google Drive folder with [Front-end layout and assignment](https://drive.google.com/open?id=1k74EPDtRmDdys6IWYK1yQXqLImxrE5d0).
-Time to complete 5 days.
+Time to complete 7 days.
 Result: [test-codebrightly.netlify.com](https://test-codebrightly.netlify.com/)
 
 #### Issues
