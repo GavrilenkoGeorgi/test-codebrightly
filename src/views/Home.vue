@@ -107,10 +107,6 @@
             <br />
             <button
               class="send-comment-button"
-              :class="{ 'disabled': this.$v.commentTitle.$error ||
-                this.$v.commentBody.$error ||
-                typeof this.commentTitle === 'undefined' ||
-                typeof this.commentBody === 'undefined' }"
               @click.prevent="sendComment()"
             >
               Send
@@ -125,11 +121,11 @@
       :adaptive="true"
       :width="330"
     >
-      <div class="confirm-comment-modal">
+      <div class="dialog">
         <p>Your comment was successfully added.</p>
         <div class="modal-buttons-layout">
           <button
-            @click.prevent="hideModal"
+            @click.prevent="hideSentModal"
           >
             Close
           </button>
@@ -139,6 +135,20 @@
             All comments
           </button>
         </div>
+      </div>
+    </modal>
+    <modal
+      name="cant-send"
+      :adaptive="true"
+      :width="330"
+    >
+      <div class="dialog">
+        <p>You have to fill the form properly to send something!</p>
+        <button
+            @click.prevent="hideCantSendModal"
+          >
+            I understand. )
+        </button>
       </div>
     </modal>
   </section>
@@ -176,11 +186,17 @@ export default {
     }
   },
   methods: {
-    showModal () {
+    showSentModal () {
       this.$modal.show('confirm-comment')
     },
-    hideModal () {
+    hideSentModal () {
       this.$modal.hide('confirm-comment')
+    },
+    showCantSendModal () {
+      this.$modal.show('cant-send')
+    },
+    hideCantSendModal () {
+      this.$modal.hide('cant-send')
     },
     navigateToComments () {
       this.$router.push(`/allComments`)
@@ -207,9 +223,11 @@ export default {
         }
         this.$store.dispatch(`sendComment`, testComment)
           .then(() => {
-            this.showModal()
+            this.showSentModal()
             this.clearFormValues()
           })
+      } else {
+        this.showCantSendModal()
       }
     }
   }
@@ -382,15 +400,12 @@ export default {
   &.disabled
     cursor: default
 
-.disabled
-  background-color: gray
-
 .validation-error
   color: $yellow-accent
   position: absolute
   font-size: .7em
 
-.confirm-comment-modal
+.dialog
   color: $green-accent
   background-color: $dark-background
   padding: 1em
