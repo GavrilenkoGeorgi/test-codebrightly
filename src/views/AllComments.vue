@@ -70,9 +70,9 @@
             <div class="buttons-layout">
               <button
                 class="modal-button"
-                @click.prevent="updateComment(commentId)"
+                @click.prevent="handleSaveComment(commentId)"
               >
-                Send
+                Save
               </button>
               <button
                 class="modal-button"
@@ -125,16 +125,15 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch(`setAllComments`)
+    this.setAllComments()
   },
   methods: {
     ...mapActions([
+      `deleteComment`,
+      `updateComment`,
       `setAllComments`
     ]),
-    deleteComment (id) {
-      this.$store.dispatch(`deleteComment`, id)
-    },
-    updateComment (id) {
+    handleSaveComment (id) {
       if (id && !this.$v.commentTitle.$error &&
           !this.$v.commentBody.$error &&
           this.commentTitle &&
@@ -147,7 +146,7 @@ export default {
           title: this.commentTitle,
           body: this.commentBody
         }
-        this.$store.dispatch(`updateComment`, updatedComment).then(() => {
+        this.updateComment(updatedComment).then(() => {
           this.hideUpdateModal()
         })
       }

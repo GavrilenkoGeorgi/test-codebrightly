@@ -106,7 +106,7 @@
             <br />
             <button
               class="send-comment-button"
-              @click.prevent="sendComment()"
+              @click.prevent="sendNewComment()"
             >
               Send
             </button>
@@ -154,6 +154,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 import weAreIcon from '@/assets/svg/weAreIcon.svg'
 import weDoIcon from '@/assets/svg/weDoIcon.svg'
@@ -185,6 +186,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      `sendComment`
+    ]),
     showSentModal () {
       this.$modal.show('confirm-comment')
     },
@@ -206,7 +210,7 @@ export default {
       // and reset validation
       this.$nextTick(() => { this.$v.$reset() })
     },
-    sendComment () {
+    sendNewComment () {
       // if all is ok
       if (!this.$v.commentTitle.$error &&
         !this.$v.commentBody.$error &&
@@ -220,7 +224,7 @@ export default {
           title: this.commentTitle,
           body: this.commentBody
         }
-        this.$store.dispatch(`sendComment`, testComment)
+        this.sendComment(testComment)
           .then(() => {
             this.showSentModal()
             this.clearFormValues()
