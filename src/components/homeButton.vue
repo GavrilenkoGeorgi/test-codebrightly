@@ -3,6 +3,7 @@
     <p>Lorem ipsum is text of the typesetting industry</p>
     <button
       class="home-button"
+      type="button"
       @click="navigate"
     >
       <backArrowIcon class="back-icon" />Back to homepage

@@ -54,12 +54,13 @@
           <p>Write<br />comment</p>
         </div>
         <div class="form-container">
-          <form>
-            <div class="form-group" >
+          <form @submit.prevent="sendNewComment()">
+            <div class="form-group">
               <input
                 class="comment-title"
                 :class="{ 'error': $v.commentTitle.$error }"
                 type="text"
+                id="title"
                 name="title"
                 aria-label="Comment title"
                 placeholder="Title"
@@ -84,6 +85,7 @@
               class="comment-text"
               :class="{ 'error': $v.commentBody.$error }"
               type="text"
+              id="comment"
               name="comment"
               aria-label="Comment text"
               placeholder="Your comment"
@@ -106,7 +108,7 @@
             <br />
             <button
               class="send-comment-button"
-              @click.prevent="sendNewComment()"
+              type="submit"
             >
               Send
             </button>
@@ -124,12 +126,14 @@
         <p>Your comment was successfully added.</p>
         <div class="modal-buttons-layout">
           <button
-            @click.prevent="hideSentModal"
+            type="button"
+            @click="hideSentModal"
           >
             Close
           </button>
           <button
-            @click.prevent="navigateToComments"
+            type="button"
+            @click="navigateToComments"
           >
             All comments
           </button>
@@ -144,7 +148,8 @@
       <div class="dialog">
         <p>You have to fill the form properly to send something!</p>
         <button
-            @click.prevent="hideCantSendModal"
+            type="button"
+            @click="hideCantSendModal"
           >
             I understand. )
         </button>
