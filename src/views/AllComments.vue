@@ -16,19 +16,22 @@
         </p>
         <button
           class="comment-button"
-          @click.prevent="navToSingleComment(comment.id)"
+          type="button"
+          @click="navToSingleComment(comment.id)"
         >
           Read more
         </button>
         <button
           class="comment-button"
-          @click.prevent="deleteComment(comment.id)"
+          type="button"
+          @click="deleteComment(comment.id)"
         >
           Delete
         </button>
         <button
           class="comment-button"
-          @click.prevent="showUpdateModal(comment.title, comment.body, comment.id)"
+          type="button"
+          @click="showUpdateModal(comment.title, comment.body, comment.id)"
         >
           Update
         </button>
@@ -70,13 +73,15 @@
             <div class="buttons-layout">
               <button
                 class="modal-button"
-                @click.prevent="handleSaveComment(commentId)"
+                type="button"
+                @click="handleSaveComment(commentId)"
               >
                 Save
               </button>
               <button
                 class="modal-button"
-                @click.prevent="hideUpdateModal()"
+                type="button"
+                @click="hideUpdateModal()"
               >
                 Cancel
               </button>
