@@ -131,12 +131,15 @@
           >
             Close
           </button>
-          <button
-            type="button"
-            @click="navigateToComments"
+          <router-link
+            to="/allComments"
           >
-            All comments
-          </button>
+            <button
+              type="button"
+            >
+              All comments
+            </button>
+          </router-link>
         </div>
       </div>
     </modal>
@@ -205,9 +208,6 @@ export default {
     },
     hideCantSendModal () {
       this.$modal.hide('cant-send')
-    },
-    navigateToComments () {
-      this.$router.push(`/allComments`)
     },
     clearFormValues () {
       this.commentTitle = undefined

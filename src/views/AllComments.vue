@@ -14,13 +14,16 @@
         <p class="comment-body">
           {{ comment.body }}
         </p>
-        <button
-          class="comment-button"
-          type="button"
-          @click="navToSingleComment(comment.id)"
+        <router-link
+          :to="{ path: `/singleComment/${comment.id}`}"
         >
-          Read more
-        </button>
+          <button
+            class="comment-button"
+            type="button"
+          >
+            Read more
+          </button>
+        </router-link>
         <button
           class="comment-button"
           type="button"
@@ -170,9 +173,6 @@ export default {
       this.commentTitle = event.params.title
       this.commentBody = event.params.body
       this.commentId = event.params.id
-    },
-    navToSingleComment (id) {
-      this.$router.push(`singleComment/${id}`)
     }
   }
 }

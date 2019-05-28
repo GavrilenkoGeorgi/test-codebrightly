@@ -1,13 +1,17 @@
 <template>
   <div class="title">
     <p>Lorem ipsum is text of the typesetting industry</p>
-    <button
-      class="home-button"
-      type="button"
-      @click="navigate"
+    <router-link
+      to="/"
     >
-      <backArrowIcon class="back-icon" />Back to homepage
-    </button>
+      <button
+        class="home-button"
+        type="button"
+      >
+        <backArrowIcon class="back-icon" />
+          Back to homepage
+      </button>
+    </router-link>
   </div>
 </template>
 
@@ -18,11 +22,6 @@ export default {
   name: 'homeButton',
   components: {
     backArrowIcon
-  },
-  methods: {
-    navigate () {
-      this.$router.push('/')
-    }
   }
 }
 </script>
