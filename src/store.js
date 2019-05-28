@@ -48,7 +48,7 @@ export default new Vuex.Store({
   },
   actions: {
     showSingleComment: async ({ commit }, id) => {
-      let response = await Vue.http.get(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments/${id}`)
+      let response = await Vue.http.get(`https://${process.env.VUE_APP_COMMENTS_URL}/${id}`)
       if (response.status === 200) {
         let data = response.body
         let comment = {
@@ -59,7 +59,7 @@ export default new Vuex.Store({
       }
     },
     setAllComments: async ({ commit }) => {
-      let response = await Vue.http.get(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments`)
+      let response = await Vue.http.get(`https://${process.env.VUE_APP_COMMENTS_URL}`)
       if (response.status === 200) {
         // to show only last six comments
         // let sliceStartIndex = response.body.length
@@ -69,13 +69,13 @@ export default new Vuex.Store({
       }
     },
     deleteComment: async ({ commit }, id) => {
-      let response = await Vue.http.delete(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments/${id}`)
+      let response = await Vue.http.delete(`https://${process.env.VUE_APP_COMMENTS_URL}/${id}`)
       if (response.status === 200) {
         commit(`deleteComment`, id)
       }
     },
     sendComment: async ({ commit }, payload) => {
-      let response = await Vue.http.post(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments`, payload)
+      let response = await Vue.http.post(`https://${process.env.VUE_APP_COMMENTS_URL}`, payload)
       if (response.status === 201) {
         commit(`sendComment`, response.body)
       }
@@ -86,7 +86,7 @@ export default new Vuex.Store({
         title: payload.title,
         body: payload.body
       }
-      let response = await Vue.http.put(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments/${payload.id}`, newData)
+      let response = await Vue.http.put(`https://${process.env.VUE_APP_COMMENTS_URL}/${payload.id}`, newData)
       if (response.status === 200) {
         commit(`updateComment`, response.body)
       }
