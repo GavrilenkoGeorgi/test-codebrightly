@@ -27,26 +27,5 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import '@/assets/sass/vars.sass'
-
-.title
-  display: flex
-  flex-direction: column
-  align-items: center
-  padding: 2em 0em 2em 0em
-  p
-    font-size: 1.4em
-    color: gray
-    text-align: center
-  .home-button
-    background-color: white
-    border: none
-    border: .075em solid $green-accent
-    height: 3em
-    border-radius: .2em
-    padding: 0em 1em 0em 1em
-    font-size: 1em
-    .back-icon
-      padding-right: .6em
-
+  @import '@/assets/sass/homeButton.sass'
 </style>
