@@ -7,7 +7,8 @@
     >
       <backArrowIcon
         class="back-icon"
-      />Back to comments
+      />
+        Back to comments
     </router-link>
     <!-- Comment title and body -->
     <h1>

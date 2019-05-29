@@ -131,12 +131,11 @@
           >
             Close
           </button>
-          <button
-            type="button"
-            @click="navigateToComments"
+          <router-link
+            to="/allComments"
           >
             All comments
-          </button>
+          </router-link>
         </div>
       </div>
     </modal>
@@ -205,9 +204,6 @@ export default {
     },
     hideCantSendModal () {
       this.$modal.hide('cant-send')
-    },
-    navigateToComments () {
-      this.$router.push(`/allComments`)
     },
     clearFormValues () {
       this.commentTitle = undefined
@@ -429,11 +425,14 @@ export default {
   justify-content: space-around
   p
     font-size: 1.5em
-  button
+  button, a
+    text-decoration: none
+    color: black
     border: none
     border-radius: $default-border-radius
     background-color: $green-accent
     height: 3em
+    line-height: 3em
     width: 8em
     margin: .2em
     font-size: .8em
