@@ -74,7 +74,6 @@ import { mapGetters, mapActions } from 'vuex'
 import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 import homeButton from '@/components/homeButton.vue'
 import comment from '@/components/comment.vue'
-
 export default {
   name: 'allComments',
   components: {
@@ -153,4 +152,4 @@ export default {
 }
 </script>
 
-<style src="@/assets/sass/allComments.sass" lang="sass" scoped></style>
+<style src='@/assets/sass/allComments.sass' lang="sass"></style>

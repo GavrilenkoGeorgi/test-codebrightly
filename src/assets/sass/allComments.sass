@@ -25,7 +25,7 @@ article
     flex-direction: row
   +desktop(96dpi, 1280px)
     flex-direction: row
-  div
+  .single-comment
     flex: 0 50%
     padding: 2em 0em 2em 0em
   .single-comment
@@ -40,13 +40,21 @@ article
     .comment-body
       color: gray
 
-.comment-button, .modal-button
+.controls-layout
+  display: flex
+
+.comment-button, .modal-button, .readmore-link
   border: none
   background-color: $green-accent
   border-radius: $default-border-radius
-  width: 6.5em
-  height: 3em
+  width: 5.5em
+  height: 2.6em
+  line-height: 2.6em
   margin: .3em
+  text-decoration: none
+  text-align: center
+  color: black
+  padding: 0
 
 .modal-button:first-child
   margin-left: 0

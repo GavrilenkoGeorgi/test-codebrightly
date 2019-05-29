@@ -48,10 +48,4 @@ export default {
 }
 </script>
 
-<<<<<<< HEAD
 <style src="@/assets/sass/singleComment.sass" lang="sass" scoped></style>
-=======
-<style lang="sass" scoped>
-  @import '@/assets/sass/singleComment.sass'
-</style>
->>>>>>> dou-forum-tips
