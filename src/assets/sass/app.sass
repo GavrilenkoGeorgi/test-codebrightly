@@ -1,0 +1,95 @@
+@import '@/assets/sass/mixins.sass'
+@import '@/assets/sass/vars.sass'
+@import '@/assets/sass/fonts.sass'
+
+html
+  scroll-behavior: smooth
+
+body
+  font-size: 16px
+  margin: 0
+
+.spacer
+  flex: 1
+
+#app
+  display: flex
+  flex-direction: column
+  min-height: 100vh
+
+.wrapper
+  min-height: 100%
+  height: auto !important
+  height: 100%
+  margin: 0 auto -4em
+
+.header-container
+  display: flex
+  justify-content: space-around
+  align-items: center
+  padding: 1em 0em 1em 0em
+  +desktop(96dpi, 600px)
+    justify-content: space-between
+    padding: 3em
+  +handheld(2, 600px)
+    justify-content: space-between
+    padding: 3em
+
+nav
+  text-transform: uppercase
+  display: flex
+  flex-direction: column
+  +handheld(2, 600px)
+    flex-direction: row
+  +desktop(96dpi, 600px)
+    flex-direction: row
+  a
+    text-decoration: none
+    padding: .4em 0em .4em 0em
+    color: black
+    display: flex
+    flex-direction: column
+    font-variation-settings: 'wght' 550
+    +handheld(2, 600px)
+      padding: 0em 1em 0em 1em
+    +desktop(96dpi, 600px)
+      padding: 0em 1em 0em 1em
+  a.router-link-active
+    color: $yellow-accent
+    +handheld(2, 600px)
+      color: black
+      &:before
+        content: ''
+        background-color: $yellow-accent
+        width: 100%
+        height: .1em
+    +desktop(96dpi, 600px)
+      color: black
+      &:before
+        content: ''
+        background-color: $yellow-accent
+        width: 100%
+        height: .1em
+
+.router-view-layout
+  width: 100%
+  display: flex
+  justify-content: center
+
+footer
+  display: flex
+  height: 4em
+  justify-content: space-between
+  align-items: center
+  color: white
+  background-color: $dark-background
+  padding: 1em
+  font-size: .75em
+  line-height: 1.5
+  +handheld(2, 600px)
+    padding: 1em 3em 1em 3em
+    line-height: 1.5
+    font-size: .75em
+  .copyrights
+    color: $copyright-color
+    text-align: right

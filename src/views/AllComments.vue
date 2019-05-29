@@ -178,7 +178,9 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
+<style src="@/assets/sass/allComments.sass" lang="sass" scoped></style>
+
+<!--style lang="sass" scoped>
 @import '@/assets/sass/mixins.sass'
 @import '@/assets/sass/vars.sass'
 
@@ -254,4 +256,4 @@ article
   .error
     border: .08em solid red
 
-</style>
+</style-->
