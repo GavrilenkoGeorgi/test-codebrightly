@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import VueResource from 'vue-resource'
+import axios from 'axios'
 
-Vue.use(VueResource)
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -48,37 +47,49 @@ export default new Vuex.Store({
   },
   actions: {
     showSingleComment: async ({ commit }, id) => {
-      let response = await Vue.http.get(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments/${id}`)
-      if (response.status === 200) {
-        let data = response.body
-        let comment = {
-          commentTitle: data.title,
-          commentBody: data.body
-        }
-        commit(`showSingleComment`, comment)
-      }
+      axios
+        .get(`https://${process.env.VUE_APP_COMMENTS_URL}/${id}`)
+        .then(response => {
+          if (response.status === 200) {
+            let data = response.data
+            let comment = {
+              commentTitle: data.title,
+              commentBody: data.body
+            }
+            commit(`showSingleComment`, comment)
+          }
+        })
+        .catch(error => { console.log(error) })
     },
     setAllComments: async ({ commit }) => {
-      let response = await Vue.http.get(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments`)
-      if (response.status === 200) {
-        // to show only last six comments
-        // let sliceStartIndex = response.body.length
-        // sliceStartIndex -= 6
-        // let commentsToDisplay = response.body.slice(sliceStartIndex)
-        commit(`setAllComments`, response.body)
-      }
+      axios
+        .get(`https://${process.env.VUE_APP_COMMENTS_URL}`)
+        .then(response => {
+          if (response.status === 200) {
+            commit(`setAllComments`, response.data)
+          }
+        })
+        .catch(error => { console.log(error) })
     },
     deleteComment: async ({ commit }, id) => {
-      let response = await Vue.http.delete(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments/${id}`)
-      if (response.status === 200) {
-        commit(`deleteComment`, id)
-      }
+      axios
+        .delete(`https://${process.env.VUE_APP_COMMENTS_URL}/${id}`)
+        .then(response => {
+          if (response.status === 200) {
+            commit(`deleteComment`, id)
+          }
+        })
+        .catch(error => { console.log(error) })
     },
     sendComment: async ({ commit }, payload) => {
-      let response = await Vue.http.post(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments`, payload)
-      if (response.status === 201) {
-        commit(`sendComment`, response.body)
-      }
+      axios
+        .post(`https://${process.env.VUE_APP_COMMENTS_URL}`, payload)
+        .then(response => {
+          if (response.status === 201) {
+            commit(`sendComment`, response.data)
+          }
+        })
+        .catch(error => { console.log(error) })
     },
     updateComment: async ({ commit }, payload) => {
       let newData = {
@@ -86,10 +97,14 @@ export default new Vuex.Store({
         title: payload.title,
         body: payload.body
       }
-      let response = await Vue.http.put(`https://5cbef81d06a6810014c66193.mockapi.io/api/comments/${payload.id}`, newData)
-      if (response.status === 200) {
-        commit(`updateComment`, response.body)
-      }
+      axios
+        .put(`https://${process.env.VUE_APP_COMMENTS_URL}/${payload.id}`, newData)
+        .then(response => {
+          if (response.status === 200) {
+            commit(`updateComment`, response.data)
+          }
+        })
+        .catch(error => { console.log(error) })
     }
   }
 })

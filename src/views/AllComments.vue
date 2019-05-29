@@ -3,40 +3,15 @@
     <h1>Comments</h1>
     <!-- All comments -->
     <div class="comments-container">
-      <div class="single-comment"
+      <comment
         v-for="(comment, index) in getAllComments"
         :key="index"
+        @updateComment="showUpdateModal"
+        :commentId="comment.id"
+        :commentTitle="comment.title"
+        :commentBody="comment.body"
       >
-        <span class="comment-title">
-          {{ comment.title }}
-        </span>
-        <br />
-        <p class="comment-body">
-          {{ comment.body }}
-        </p>
-        <div class="controls-layout">
-          <router-link
-            class="readmore-link"
-            :to="{ path: `/singleComment/${comment.id}`}"
-          >
-            Read more
-          </router-link>
-          <button
-            class="comment-button"
-            type="button"
-            @click="deleteComment(comment.id)"
-          >
-            Delete
-          </button>
-          <button
-            class="comment-button"
-            type="button"
-            @click="showUpdateModal(comment.title, comment.body, comment.id)"
-          >
-            Update
-          </button>
-        </div>
-      </div>
+      </comment>
     </div>
     <!-- Back button -->
     <homeButton />
@@ -98,11 +73,13 @@
 import { mapGetters, mapActions } from 'vuex'
 import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 import homeButton from '@/components/homeButton.vue'
+import comment from '@/components/comment.vue'
 
 export default {
   name: 'allComments',
   components: {
-    homeButton
+    homeButton,
+    comment
   },
   computed: {
     ...mapGetters([
@@ -157,7 +134,7 @@ export default {
         })
       }
     },
-    showUpdateModal (title, body, id) {
+    showUpdateModal (id, title, body) {
       this.$modal.show('update-comment', {
         title: title,
         body: body,
