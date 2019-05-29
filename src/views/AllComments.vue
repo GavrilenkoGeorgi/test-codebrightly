@@ -14,27 +14,28 @@
         <p class="comment-body">
           {{ comment.body }}
         </p>
-        <button
-          class="comment-button"
-          type="button"
-          @click="navToSingleComment(comment.id)"
-        >
-          Read more
-        </button>
-        <button
-          class="comment-button"
-          type="button"
-          @click="deleteComment(comment.id)"
-        >
-          Delete
-        </button>
-        <button
-          class="comment-button"
-          type="button"
-          @click="showUpdateModal(comment.title, comment.body, comment.id)"
-        >
-          Update
-        </button>
+        <div class="controls-layout">
+          <router-link
+            class="readmore-link"
+            :to="{ path: `/singleComment/${comment.id}`}"
+          >
+            Read more
+          </router-link>
+          <button
+            class="comment-button"
+            type="button"
+            @click="deleteComment(comment.id)"
+          >
+            Delete
+          </button>
+          <button
+            class="comment-button"
+            type="button"
+            @click="showUpdateModal(comment.title, comment.body, comment.id)"
+          >
+            Update
+          </button>
+        </div>
       </div>
     </div>
     <!-- Back button -->
@@ -170,9 +171,6 @@ export default {
       this.commentTitle = event.params.title
       this.commentBody = event.params.body
       this.commentId = event.params.id
-    },
-    navToSingleComment (id) {
-      this.$router.push(`singleComment/${id}`)
     }
   }
 }
@@ -208,10 +206,9 @@ article
     flex-direction: row
   +desktop(96dpi, 1280px)
     flex-direction: row
-  div
+  .single-comment
     flex: 0 50%
     padding: 2em 0em 2em 0em
-  .single-comment
     box-sizing: border-box
     padding: 1em
     width: 100%
@@ -223,13 +220,22 @@ article
     .comment-body
       color: gray
 
-.comment-button, .modal-button
+.controls-layout
+  display: flex
+
+.comment-button, .modal-button, .readmore-link
+  font-size: 1em
   border: none
   background-color: $green-accent
   border-radius: $default-border-radius
-  width: 6.5em
-  height: 3em
+  width: 5.5em
+  height: 2.6em
+  line-height: 2.6em
   margin: .3em
+  text-decoration: none
+  text-align: center
+  color: black
+  padding: 0
 
 .modal-button:first-child
   margin-left: 0
