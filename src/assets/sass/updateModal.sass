@@ -1,0 +1,31 @@
+@import '@/assets/sass/vars.sass'
+.modal-container, .modal-comment-title, .modal-comment-text
+  border-radius: $default-border-radius
+  border: 0.0625em solid $green-accent
+  box-sizing: border-box
+
+.modal-container
+  height: 100%
+
+.modal-title
+  margin-top: .3em
+  font-variation-settings: 'wght' 500
+
+.modal-comment-title
+  margin-bottom: .2em
+
+.modal-comment-title, .modal-comment-text
+  width: 100%
+  padding: .4em
+
+.modal-comment-text
+  height: 7em
+  resize: none
+
+.buttons-layout, .modal-comment-text
+  margin-top: 1.5em
+
+.validation-error
+  color: red
+  font-size: .7em
+  position: absolute

@@ -2,6 +2,7 @@
   <modal
     name="update-comment"
     :adaptive="true"
+    :width="350"
     @before-open="beforeOpen"
   >
     <div class="modal-container">
@@ -11,16 +12,27 @@
       <div class="form-container">
         <form class="update-comment-form">
           <input
-            class="comment-title"
+            class="modal-comment-title"
             :class="{ 'error': $v.commentTitle.$error }"
             type="text"
             name="title"
             placeholder="Title"
             v-model.trim="$v.commentTitle.$model"
           >
+          <div
+            class="validation-error"
+            v-if="!$v.commentTitle.minLength ||
+                  !$v.commentTitle.maxLength"
+          >
+            Title must have at least
+              {{ $v.commentTitle.$params.minLength.min }}
+            letters min and
+              {{ $v.commentTitle.$params.maxLength.max }}
+            letters max.
+          </div>
           <br />
           <textarea
-            class="comment-text"
+            class="modal-comment-text"
             :class="{ 'error': $v.commentBody.$error }"
             type="text"
             name="comment"
@@ -28,6 +40,17 @@
             v-model.trim="$v.commentBody.$model"
           >
           </textarea>
+          <div
+            class="validation-error"
+            v-if="!$v.commentBody.minLength ||
+                  !$v.commentBody.maxLength"
+          >
+            Comment must have at least
+              {{ $v.commentBody.$params.minLength.min }}
+            letters min and
+              {{ $v.commentBody.$params.maxLength.max }}
+            letters max.
+          </div>
           <br />
           <div class="buttons-layout">
             <button
@@ -111,3 +134,5 @@ export default {
   }
 }
 </script>
+
+<style src="@/assets/sass/updateModal.sass" lang="sass"></style>
