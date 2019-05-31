@@ -1,6 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
+
+import {
+  getComment,
+  getAllComments,
+  deleteComment,
+  sendComment,
+  updateComment
+} from './api'
 
 Vue.use(Vuex)
 
@@ -47,64 +54,35 @@ export default new Vuex.Store({
   },
   actions: {
     showSingleComment: async ({ commit }, id) => {
-      axios
-        .get(`https://${process.env.VUE_APP_COMMENTS_URL}/${id}`)
-        .then(response => {
-          if (response.status === 200) {
-            let data = response.data
-            let comment = {
-              commentTitle: data.title,
-              commentBody: data.body
-            }
-            commit(`showSingleComment`, comment)
-          }
-        })
-        .catch(error => { console.log(error) })
+      getComment(id).then((comment) => {
+        commit(`showSingleComment`, comment)
+      })
     },
     setAllComments: async ({ commit }) => {
-      axios
-        .get(`https://${process.env.VUE_APP_COMMENTS_URL}`)
-        .then(response => {
-          if (response.status === 200) {
-            commit(`setAllComments`, response.data)
-          }
-        })
-        .catch(error => { console.log(error) })
+      getAllComments().then((allComments) => {
+        commit(`setAllComments`, allComments)
+      })
     },
     deleteComment: async ({ commit }, id) => {
-      axios
-        .delete(`https://${process.env.VUE_APP_COMMENTS_URL}/${id}`)
-        .then(response => {
-          if (response.status === 200) {
-            commit(`deleteComment`, id)
-          }
-        })
-        .catch(error => { console.log(error) })
+      deleteComment(id).then((deleted) => {
+        if (deleted) {
+          commit(`deleteComment`, id)
+        }
+      })
     },
-    sendComment: async ({ commit }, payload) => {
-      axios
-        .post(`https://${process.env.VUE_APP_COMMENTS_URL}`, payload)
-        .then(response => {
-          if (response.status === 201) {
-            commit(`sendComment`, response.data)
-          }
-        })
-        .catch(error => { console.log(error) })
+    sendComment: async ({ commit }, comment) => {
+      sendComment(comment).then(comment => {
+        if (comment) {
+          commit(`sendComment`, comment)
+        }
+      })
     },
-    updateComment: async ({ commit }, payload) => {
-      let newData = {
-        created_at: payload.timestamp,
-        title: payload.title,
-        body: payload.body
-      }
-      axios
-        .put(`https://${process.env.VUE_APP_COMMENTS_URL}/${payload.id}`, newData)
-        .then(response => {
-          if (response.status === 200) {
-            commit(`updateComment`, response.data)
-          }
-        })
-        .catch(error => { console.log(error) })
+    updateComment: async ({ commit }, comment) => {
+      updateComment(comment).then(updatedComment => {
+        if (updatedComment) {
+          commit(`updateComment`, updatedComment)
+        }
+      })
     }
   }
 })
