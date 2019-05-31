@@ -17,7 +17,7 @@
     <updateModal
       @validatedComment="saveToStore"
       @closeModal="hideUpdateModal"
-      :commentToUpdate="commentToUpdate"
+      :comment="commentToUpdate"
     >
     </updateModal>
     <!-- Back button -->
@@ -71,10 +71,16 @@ export default {
       this.$modal.hide('update-comment')
     },
     saveToStore (comment) {
-      this.updateComment(comment)
-        .then(() => {
-          this.hideUpdateModal()
-        })
+      if (comment) {
+        this.updateComment(comment)
+          .then(() => {
+            this.hideUpdateModal()
+          })
+      } else {
+        // comment hasn't changed so
+        // just close it
+        this.hideUpdateModal()
+      }
     }
   }
 }
