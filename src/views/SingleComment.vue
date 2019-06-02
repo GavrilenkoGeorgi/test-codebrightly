@@ -12,10 +12,10 @@
     </router-link>
     <!-- Comment title and body -->
     <h1>
-      {{ getSingleComment.commentTitle }}
+      {{ getSingleComment.title }}
     </h1>
     <p>
-      {{ getSingleComment.commentBody }}
+      {{ getSingleComment.body }}
     </p>
     <homeButton />
   </section>

@@ -30,11 +30,11 @@ export default new Vuex.Store({
   mutations: {
     showSingleComment (state, payload) {
       // add comment to display on 'read more' page
-      Vue.set(state.singleComment = Object.assign(state.singleComment, payload))
+      Vue.set(state, `singleComment`, payload)
     },
     setAllComments (state, payload) {
       // all comments from api
-      Vue.set(state.allComments = Object.assign(state.allComments, payload))
+      Vue.set(state, `allComments`, payload)
     },
     deleteComment (state, id) {
       // delete single comment
@@ -56,11 +56,15 @@ export default new Vuex.Store({
     showSingleComment: async ({ commit }, id) => {
       getComment(id).then((comment) => {
         commit(`showSingleComment`, comment)
+      }).catch(error => {
+        console.error(error)
       })
     },
     setAllComments: async ({ commit }) => {
       getAllComments().then((allComments) => {
         commit(`setAllComments`, allComments)
+      }).catch(error => {
+        console.error(error)
       })
     },
     deleteComment: async ({ commit }, id) => {
@@ -68,6 +72,8 @@ export default new Vuex.Store({
         if (deleted) {
           commit(`deleteComment`, id)
         }
+      }).catch(error => {
+        console.error(error)
       })
     },
     sendComment: async ({ commit }, comment) => {
@@ -75,6 +81,8 @@ export default new Vuex.Store({
         if (comment) {
           commit(`sendComment`, comment)
         }
+      }).catch(error => {
+        console.error(error)
       })
     },
     updateComment: async ({ commit }, comment) => {
@@ -82,6 +90,8 @@ export default new Vuex.Store({
         if (updatedComment) {
           commit(`updateComment`, updatedComment)
         }
+      }).catch(error => {
+        console.error(error)
       })
     }
   }
