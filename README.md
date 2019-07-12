@@ -1,4 +1,4 @@
-# Test assingnment for CodeBright
+# Test assignment for CodeBright
 [![Netlify Status](https://api.netlify.com/api/v1/badges/17a33a90-1450-46a4-8bdf-7f76ad99b753/deploy-status)](https://app.netlify.com/sites/test-codebrightly/deploys)
 
 Vue, Vuex, Vue Router, SASS, Vue-cli.
